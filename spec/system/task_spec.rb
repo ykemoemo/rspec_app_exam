@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Task', type: :system do
-  describe 'Task一覧' do
-    let(:project) { create(:project) }
-    let(:task) { create(:task, project_id: project.id) }
+  let(:project) { create(:project) }
+  let(:task) { create(:task, project_id: project.id) }
+  let(:task_done) { create(:task, :done, project_id: project.id) }
 
+  describe 'Task一覧' do
     context '正常系' do
       it '一覧ページにアクセスした場合、Taskが表示されること' do
         # TODO: ローカル変数ではなく let を使用してください
@@ -27,8 +28,6 @@ RSpec.describe 'Task', type: :system do
   end
 
   describe 'Task新規作成' do
-    let(:project) { create(:project) }
-
     context '正常系' do
       it 'Taskが新規作成されること' do
         # TODO: ローカル変数ではなく let を使用してください
@@ -44,9 +43,6 @@ RSpec.describe 'Task', type: :system do
   end
 
   describe 'Task詳細' do
-    let(:project) { create(:project) }
-    let(:task) { create(:task, project_id: project.id) }
-
     context '正常系' do
       it 'Taskが表示されること' do
         # TODO: ローカル変数ではなく let を使用してください
@@ -60,10 +56,6 @@ RSpec.describe 'Task', type: :system do
   end
 
   describe 'Task編集' do
-    let(:project) { create(:project) }
-    let(:task) { create(:task, project_id: project.id) }
-    let(:task_done) { create(:task, :done, project_id: project.id) }
-
     context '正常系' do
       it 'Taskを編集した場合、一覧画面で編集後の内容が表示されること' do
         # FIXME: テストが失敗するので修正してください
@@ -98,9 +90,6 @@ RSpec.describe 'Task', type: :system do
   end
 
   describe 'Task削除' do
-    let(:project) { create(:project) }
-    let(:task) { create(:task, project_id: project.id) }
-
     context '正常系' do
       # FIXME: テストが失敗するので修正してください
       it 'Taskが削除されること' do
