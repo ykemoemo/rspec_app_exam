@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.fdescribe 'Task', type: :system do
+RSpec.describe 'Task', type: :system do
   let(:project) { create(:project) }
   let(:task) { create(:task) }
   let(:task_done) { create(:task, :done) }
