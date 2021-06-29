@@ -46,11 +46,11 @@ RSpec.describe 'Task', type: :system do
     context '正常系' do
       it 'Taskが表示されること' do
         # TODO: ローカル変数ではなく let を使用してください
-        visit project_task_path(project, task)
+        visit project_task_path(task.project, task)
         expect(page).to have_content(task.title)
         expect(page).to have_content(task.status)
         expect(page).to have_content(task.deadline.strftime('%Y-%m-%d %H:%M'))
-        expect(current_path).to eq project_task_path(project, task)
+        expect(current_path).to eq project_task_path(task.project, task)
       end
     end
   end
@@ -59,32 +59,32 @@ RSpec.describe 'Task', type: :system do
     context '正常系' do
       it 'Taskを編集した場合、一覧画面で編集後の内容が表示されること' do
         # FIXME: テストが失敗するので修正してください
-        visit edit_project_task_path(project, task)
+        visit edit_project_task_path(task.project, task)
         fill_in 'Deadline', with: Time.current
         click_button 'Update Task'
         click_link 'Back'
         expect(find('.task_list')).to have_content(short_time(Time.current))
-        expect(current_path).to eq project_tasks_path(project)
+        expect(current_path).to eq project_tasks_path(task.project)
       end
 
       it 'ステータスを完了にした場合、Taskの完了日に今日の日付が登録されること' do
         # TODO: ローカル変数ではなく let を使用してください
-        visit edit_project_task_path(project, task)
+        visit edit_project_task_path(task.project, task)
         select 'done', from: 'Status'
         click_button 'Update Task'
         expect(page).to have_content('done')
         expect(page).to have_content(Time.current.strftime('%Y-%m-%d'))
-        expect(current_path).to eq project_task_path(project, task)
+        expect(current_path).to eq project_task_path(task.project, task)
       end
 
       it '既にステータスが完了のタスクのステータスを変更した場合、Taskの完了日が更新されないこと' do
         # TODO: FactoryBotのtraitを利用してください
-        visit edit_project_task_path(project, task_done)
+        visit edit_project_task_path(task_done.project, task_done)
         select 'todo', from: 'Status'
         click_button 'Update Task'
         expect(page).to have_content('todo')
         expect(page).not_to have_content(Time.current.strftime('%Y-%m-%d'))
-        expect(current_path).to eq project_task_path(project, task_done)
+        expect(current_path).to eq project_task_path(task_done.project, task_done)
       end
     end
   end
